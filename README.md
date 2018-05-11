@@ -21,9 +21,12 @@ Demonstrate the use of git-secrets
 (https://github.com/awslabs/git-secrets) with GitLab server side
 hooks.
 
-### GitLab Secrets
+### gitlab
 
-Start GitLab Secrets container in background:
+Extends gitlab container to include git-secrets with aws rules in
+global pre-recieve custom hooks.
+
+Start GitLab container in background:
 
     docker-compose up -d gitlab
 
@@ -38,11 +41,11 @@ Open a browser and navigate to http://localhost:8081 and initialize the
 Once logged in, create a new Group called `demo`.  Then create a new
 Project called `my-repo`.
 
-### Test
+### git
 
 Start gitlab-secrets container:
 
-    docker-compose run gitlab-secrets /bin/sh
+    docker-compose run git /bin/sh
 
 From `gitlab-secrets` container,
 clone `my-repo` with `root/Welcome` creds:
@@ -57,54 +60,27 @@ Verify you are able to push a non-secret change:
 
     echo "no secrets here" > README.md
     git add README.md
-    git commit -m "tweak readme"
+    git commit -m "Update readme"
     git push -u origin master
 
 
-Verify you are not able to push an allowed AWS example key:
+Verify you are able to push an allowed AWS example key:
 
     echo "AKIAIOSFODNN7EXAMPLE wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" > README.md
     git add README.md
-    git commit -m "allowed example secret"
+    git commit -m "Allowed example secret"
     git push -u origin master
 
-Verify you are not able to push an AWS secret key:
+Verify you are NOT able to push an AWS secret key:
 
     echo "AKIAIOSFODSECRETSKEY wJalrXUtnFEMI/K7MDENG/bPxRfiCYSECRETSKEY" > README.md
     git add README.md
-    git commit -m "oops"
+    git commit -m "Oops"
     git push -u origin master
 
 Verify you are able to override GitLab blocking push with `.gitallowed`:
 
     echo "SECRETSKEY" > .gitallowed
     git add .gitallowed
-    git commit -m "false positive"
+    git commit -m "False positive"
     git push -u origin master
-
-## Setup
-
-Clone git-secrets to `/var/opt/git-secrets`:
-
-    git clone https://github.com/awslabs/git-secrets /var/opt/git-secrets
-
-Change directory to `/var/opt/git-secrets`:
-
-    cd /var/opt/git-secrets
-
-Install build-essential:
-
-    apt-get -y update && apt-get -y install build-essential
-
-Install git-secrets:
-
-    make install
-
-Register AWS security scan rules at global level:
-
-    git secrets --register-aws --global
-
-TODO: Add global pre-receive hook steps
-
-
-curl --request POST --user root:Welcome1 --url http://gitlab:8081/rest/api/1.0/projects/PDE/repos --header 'Content-Type: application/json' --data "{\"name\": \"my-repo-name\"}"

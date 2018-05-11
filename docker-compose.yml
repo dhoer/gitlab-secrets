@@ -1,15 +1,22 @@
 version: "3"
 services:
-  gitlab-secrets:
+  gitlab:
     build: .
-    restart: always
     hostname: 'localhost'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://localhost:8081'
+        gitlab_shell['custom_hooks_dir'] = '/opt/git-hooks'
     volumes:
     - ./gitlab/config:/etc/gitlab
     - ./gitlab/logs:/var/log/gitlab
     - ./gitlab/data:/var/opt/gitlab
+    - ./gitlab/hooks:/var/opt/git-hooks
     ports:
     - "8081:8081"
+  git:
+    build:
+      context: .
+      dockerfile: Dockerfile.git
+    links:
+    - gitlab

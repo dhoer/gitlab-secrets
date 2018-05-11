@@ -1,0 +1,8 @@
+FROM alpine:3.7
+
+RUN apk add --no-cache git \
+    && git config --global user.email "root@example.com" \
+    && git config --global user.name "root" \
+    && mkdir -p /git
+
+WORKDIR /git
