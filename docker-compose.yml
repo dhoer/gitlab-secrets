@@ -11,7 +11,6 @@ services:
     - ./gitlab/config:/etc/gitlab
     - ./gitlab/logs:/var/log/gitlab
     - ./gitlab/data:/var/opt/gitlab
-    - ./gitlab/hooks:/var/opt/git-hooks
     ports:
     - "8081:8081"
   git:

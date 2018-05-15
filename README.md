@@ -6,19 +6,19 @@ that have a specific filename, but this doesn't go far enough because it
 doesn't scan files for secrets.
 
 AWS's git-secrets (https://github.com/awslabs/git-secrets) provides a
-way to scan files, but it requires users to install it on their
-local machine.  This is not ideal because it is hard to ensure users
-are compliant with best practices.
+way to scan files but it requires users to install it on their
+local machine.  This is great but not ideal because it is hard to ensure
+users are compliant with best practices.
 
-A hybrid approach would be to have git-secrets on both client and
-GitLab server side checking for secrets. GitLab can reject a push if it
+A hybrid approach would be to have git-secrets on both client-side and
+GitLab server-side checking for secrets. GitLab can reject a push if it
 fails a scan, and users can use the same git-secrets tool to resolve
-the problem from their end.
+the problem from client-side.
 
 ## Demonstration
 
 Demonstrate the use of git-secrets
-(https://github.com/awslabs/git-secrets) with GitLab server side
+(https://github.com/awslabs/git-secrets) with GitLab server-side
 hooks.
 
 ### gitlab
@@ -34,6 +34,10 @@ Start GitLab container in background:
 Tail the logs to make sure it came up properly:
 
     docker-compose logs -f gitlab
+
+Or watch the state for health status of `healty`:
+
+    watch docker-compose ps
 
 Open a browser and navigate to http://localhost:8081 and initialize the
 `root` password. For this demo we will use `Welcome1` as the password.
@@ -78,7 +82,7 @@ Verify you are NOT able to push an AWS secret key:
     git commit -m "Oops"
     git push -u origin master
 
-Verify you are able to override GitLab blocking push with `.gitallowed`:
+TODO: Verify you are able to override GitLab blocking push with `.gitallowed`:
 
     echo "SECRETSKEY" > .gitallowed
     git add .gitallowed
