@@ -109,5 +109,5 @@ Backout the commit:
 
 Note that `.gitallowed` works by adding secrets allowed to the git repo
 config file for the project on the gitlab server. It would require manual 
-removal of a secret allowed, if a secret allowed was removed from the
+removal of a secret allowed, if that secret allowed was removed from the
 `.gitallowed` file.
