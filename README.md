@@ -17,14 +17,14 @@ the problem from client-side.
 
 ## Demonstration
 
-Demonstrate the use of git-secrets
-(https://github.com/awslabs/git-secrets) with GitLab server-side
-hooks.
+Demonstrate the use of git-secrets with aws rules
+(https://github.com/awslabs/git-secrets) in GitLab server-side
+custom update hook.
 
 ### gitlab
 
 Extends gitlab container to include git-secrets with aws rules in
-global pre-recieve custom hooks.
+server-side update hook.
 
 Start GitLab container in background:
 
@@ -45,6 +45,8 @@ Open a browser and navigate to http://localhost:8081 and initialize the
 Once logged in, create a project under root group called `my-repo`.
 
 ### git
+
+A minimal Docker Alpine container with git installed to test git-secrets.
 
 Start gitlab-secrets container:
 
@@ -106,4 +108,5 @@ Backout the commit:
     git checkout README.md
 
 Note that `.gitallowed` works by adding secrets allowed to the git repo
-config file and can't be removed.
+config file for the project on the gitlab server and would require manual 
+removal.
