@@ -108,5 +108,6 @@ Backout the commit:
     git checkout README.md
 
 Note that `.gitallowed` works by adding secrets allowed to the git repo
-config file for the project on the gitlab server and would require manual 
-removal.
+config file for the project on the gitlab server. It would require manual 
+removal of a secret allowed, if a secret allowed was removed from the
+`.gitallowed` file.
