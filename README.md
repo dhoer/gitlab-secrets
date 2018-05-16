@@ -7,8 +7,8 @@ doesn't scan files for secrets.
 
 AWS's git-secrets (https://github.com/awslabs/git-secrets) provides a
 way to scan files but it requires users to install it on their
-local machine.  This is great but not ideal because it is hard to ensure
-users are compliant with best practices.
+local machine.  This is great but it is hard to ensure users are
+compliant with best practices.
 
 A hybrid approach would be to have git-secrets on both client-side and
 GitLab server-side checking for secrets. GitLab can reject a push if it
@@ -35,15 +35,14 @@ Tail the logs to make sure it came up properly:
 
     docker-compose logs -f gitlab
 
-Or watch the state for health status of `healty`:
+Or watch the state for health status of `healthy`:
 
     watch docker-compose ps
 
 Open a browser and navigate to http://localhost:8081 and initialize the
 `root` password. For this demo we will use `Welcome1` as the password.
 
-Once logged in, create a new Group called `demo`.  Then create a new
-Project called `my-repo`.
+Once logged in, create a project under root group called `my-repo`.
 
 ### git
 
@@ -54,7 +53,7 @@ Start gitlab-secrets container:
 From `gitlab-secrets` container,
 clone `my-repo` with `root/Welcome` creds:
 
-    git clone http://gitlab:8081/demo/my-repo.git
+    git clone http://gitlab:8081/root/my-repo.git
 
 Change directory to my-repo:
 
@@ -82,9 +81,29 @@ Verify you are NOT able to push an AWS secret key:
     git commit -m "Oops"
     git push -u origin master
 
-TODO: Verify you are able to override GitLab blocking push with `.gitallowed`:
+Verify you are able to override GitLab blocking push with `.gitallowed`:
 
     echo "SECRETSKEY" > .gitallowed
     git add .gitallowed
     git commit -m "False positive"
     git push -u origin master
+
+Backout the commit:
+
+    git reset HEAD~1
+    git checkout README.md
+
+Verify you are NOT able to push another AWS secret key:
+
+    echo "AKIAIOSFODVERYSECRET wJalrXUtnFEMI/K7MDENG/bPxRfiCYVERYSECRET" > README.md
+    git add README.md
+    git commit -m "Oops"
+    git push -u origin master
+
+Backout the commit:
+
+    git reset HEAD~1
+    git checkout README.md
+
+Note that `.gitallowed` works by adding secrets allowed to the git repo
+config file and can't be removed.

@@ -13,19 +13,32 @@ HOME=/opt/git-hooks
 # add git-secrets to path
 PATH=$PATH:/usr/local/bin
 
+# handle empty repository
 if [ "$oldrev" = "0000000000000000000000000000000000000000" ]; then
   oldrev=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
 
+for i in $(git show $newrev:.gitallowed 2>/dev/null); do
+  git secrets --add --allowed $i;
+done
+
 exitcode='0'
 FILES=`git diff --name-status $oldrev $newrev | awk '{print $2}'`
 for filepath in $FILES; do
-  echo "Scanning $filepath ..."
+  if [ "$filepath" = ".gitallowed" ]; then
+    echo "Skipping $filepath ..."
+  else
+    echo "Scanning $filepath ..."
+  fi
   git show $newrev:$filepath | git secrets --scan -
   result=$?
   if [ "$result" != "0" ]; then
     exitcode=$result
   fi
+done
+
+for i in $(git show $newrev:.gitallowed 2>/dev/null); do
+  git secrets --add --allowed $i;
 done
 
 if [ "$exitcode" != "0" ]; then
