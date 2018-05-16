@@ -37,10 +37,6 @@ for filepath in $FILES; do
   fi
 done
 
-for i in $(git show $newrev:.gitallowed 2>/dev/null); do
-  git secrets --add --allowed $i;
-done
-
 if [ "$exitcode" != "0" ]; then
     echo ""
     echo "Listing configuration ..."
