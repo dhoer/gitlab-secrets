@@ -17,14 +17,14 @@ the problem from client-side.
 
 ## Demonstration
 
-Demonstrate the use of git-secrets with aws rules
-(https://github.com/awslabs/git-secrets) in GitLab server-side
-custom update hook.
+Demonstrate the use of git-secrets, with aws rules,
+(https://github.com/awslabs/git-secrets) in a GitLab server-side
+update hook.
 
 ### gitlab
 
-Extends gitlab container to include git-secrets with aws rules in
-server-side update hook.
+Extends gitlab Docker image to include git-secrets, with aws rules, in
+a custom update hook.
 
 Start GitLab container in background:
 
