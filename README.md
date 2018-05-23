@@ -26,7 +26,7 @@ update hook.
 Extends gitlab Docker image to include git-secrets, with aws rules, in
 a custom update hook.
 
-Start GitLab container in background:
+Start `gitlab` container in background:
 
     docker-compose up -d gitlab
 
@@ -46,7 +46,9 @@ For this demo we will use the following as the password:
 
     Welcome1
 
-Once logged in, create a project under root group called `my-repo`.
+Once logged in, create a project under root group called:
+
+    my-repo
 
 ### Git
 
@@ -58,8 +60,7 @@ Start `git` container:
 
     docker-compose run git /bin/sh
 
-From within `git` container; clone `my-repo`, created in the last 
-step of GitLab section above, using `root/Welcome1` credentials:
+From within `git` container; clone `my-repo` project using `root/Welcome1` credentials:
 
     git clone http://gitlab:8081/root/my-repo.git
 
