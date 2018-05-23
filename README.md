@@ -116,7 +116,7 @@ Backout the commit:
     git-crypt init
     echo "my-repo-crypt.key" > .gitignore
     git-crypt export-key my-repo-crypt.key
-    echo "my.secrets" > .gitattributes
+    echo "my.secrets filter=git-crypt diff=git-crypt" > .gitattributes
     echo "password=muMj8RUUdJtzGazK" > my.secrets
     git add .
     git commit -m "git-crypt example"
