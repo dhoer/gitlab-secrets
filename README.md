@@ -58,12 +58,12 @@ Start gitlab-secrets container:
 
     docker-compose run git /bin/sh
 
-From `gitlab-secrets` container, clone `my-repo` with `root/Welcome`
-creds:
+From within `git` container; clone `my-repo`, created in last 
+step of GitLab section above, with `root/Welcome1` creds:
 
     git clone http://gitlab:8081/root/my-repo.git
 
-Change directory to my-repo:
+Change to `my-repo` directory:
 
     cd my-repo
 
