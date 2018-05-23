@@ -1,6 +1,20 @@
 FROM alpine:3.7
 
+ENV GIT_CRYPT_VERSION 0.6.0-1
+
 RUN apk add --no-cache git \
+       g++ \
+       make \
+       openssh \
+       openssl \
+       openssl-dev \
+    && wget -O /tmp/git-crypt.tar.gz \
+       https://github.com/AGWA/git-crypt/archive/debian/$GIT_CRYPT_VERSION.tar.gz \
+    && tar -xzf /tmp/git-crypt.tar.gz -C /var/tmp \
+    && cd /var/tmp/git-crypt-debian-$GIT_CRYPT_VERSION \
+    && make \
+    && make install PREFIX=/usr/local \
+    && rm -f /tmp/git-crypt.tar.gz \
     && git config --global user.email "root@example.com" \
     && git config --global user.name "root" \
     && mkdir -p /git
