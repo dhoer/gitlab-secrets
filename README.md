@@ -90,7 +90,8 @@ Verify you are NOT able to push an AWS secret key:
     git commit -m "Oops"
     git push -u origin master
 
-Verify you are able to override GitLab blocking push with `.gitallowed`:
+Verify you are able to override GitLab blocking a push with
+`.gitallowed` file:
 
     echo "SECRETSKEY" > .gitallowed
     git add .gitallowed
