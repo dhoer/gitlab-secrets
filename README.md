@@ -40,7 +40,11 @@ Or watch the state for health status of `healthy`:
     watch docker-compose ps
 
 Open a browser and navigate to http://localhost:8081 and initialize the
-`root` password. For this demo we will use `Welcome1` as the password.
+`root` password. 
+
+For this demo we will use the following as the password:
+
+    Welcome1
 
 Once logged in, create a project under root group called `my-repo`.
 
