@@ -54,12 +54,12 @@ A minimal Docker Alpine container with git and
 [git-crypt](https://github.com/AGWA/git-crypt)
 installed to test git-secrets.
 
-Start gitlab-secrets container:
+Start `git` container:
 
     docker-compose run git /bin/sh
 
-From within `git` container; clone `my-repo`, created in last 
-step of GitLab section above, with `root/Welcome1` creds:
+From within `git` container; clone `my-repo`, created in the last 
+step of GitLab section above, using `root/Welcome1` credentials:
 
     git clone http://gitlab:8081/root/my-repo.git
 
