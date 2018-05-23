@@ -113,6 +113,8 @@ Backout the commit:
 
 #### Git-crypt encrypted files allowed
 
+Verify you are able to push git-crypt encrypted files:
+
     git-crypt init
     echo "my-repo-crypt.key" > .gitignore
     git-crypt export-key my-repo-crypt.key
