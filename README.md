@@ -21,7 +21,7 @@ Demonstrate the use of git-secrets, with aws rules,
 (https://github.com/awslabs/git-secrets) in a GitLab server-side
 update hook.
 
-### gitlab
+### GitLab
 
 Extends gitlab Docker image to include git-secrets, with aws rules, in
 a custom update hook.
@@ -44,7 +44,7 @@ Open a browser and navigate to http://localhost:8081 and initialize the
 
 Once logged in, create a project under root group called `my-repo`.
 
-### git
+### Git
 
 A minimal Docker Alpine container with git and
 [git-crypt](https://github.com/AGWA/git-crypt)
@@ -63,7 +63,7 @@ Change directory to my-repo:
 
     cd my-repo
 
-#### push non-secret and aws example keys
+#### Push non-secret and aws example keys
 
 Verify you are able to push a non-secret change:
 
@@ -81,7 +81,7 @@ Verify you are able to push the default allowed AWS example key:
     git push -u origin master
 
 
-#### override false positive
+#### Override false positive
 
 Verify you are NOT able to push an AWS secret key:
 
@@ -97,7 +97,7 @@ Verify you are able to override GitLab blocking push with `.gitallowed`:
     git commit -m "False positive"
     git push -u origin master
 
-#### revert committed secret
+#### Revert committed secret
 
 Verify you are NOT able to push another AWS secret key:
 
@@ -111,7 +111,7 @@ Backout the commit:
     git reset HEAD~1
     git checkout README.md
 
-#### git-crypt encrypted files allowed
+#### Git-crypt encrypted files allowed
 
     git-crypt init
     echo "my-repo-crypt.key" > .gitignore
