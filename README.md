@@ -114,9 +114,10 @@ Backout the commit:
 #### git-crypt encrypted files allowed
 
     git-crypt init
+    echo "my-repo-crypt.key" > .gitignore
     git-crypt export-key my-repo-crypt.key
     echo "my.secrets" > .gitattributes
-    echo "password=muMj8RUUgJtzGazK" > my.secrets
+    echo "password=muMj8RUUdJtzGazK" > my.secrets
     git add .
     git commit -m "git-crypt example"
     git push -u origin master
