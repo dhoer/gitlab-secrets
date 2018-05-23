@@ -46,20 +46,24 @@ Once logged in, create a project under root group called `my-repo`.
 
 ### git
 
-A minimal Docker Alpine container with git installed to test git-secrets.
+A minimal Docker Alpine container with git and
+[git-crypt](https://github.com/AGWA/git-crypt)
+installed to test git-secrets.
 
 Start gitlab-secrets container:
 
     docker-compose run git /bin/sh
 
-From `gitlab-secrets` container,
-clone `my-repo` with `root/Welcome` creds:
+From `gitlab-secrets` container, clone `my-repo` with `root/Welcome`
+creds:
 
     git clone http://gitlab:8081/root/my-repo.git
 
 Change directory to my-repo:
 
     cd my-repo
+
+#### push non-secret and aws example keys
 
 Verify you are able to push a non-secret change:
 
@@ -69,12 +73,15 @@ Verify you are able to push a non-secret change:
     git push -u origin master
 
 
-Verify you are able to push an allowed AWS example key:
+Verify you are able to push the default allowed AWS example key:
 
     echo "AKIAIOSFODNN7EXAMPLE wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" > README.md
     git add README.md
     git commit -m "Allowed example secret"
     git push -u origin master
+
+
+#### override false positive
 
 Verify you are NOT able to push an AWS secret key:
 
@@ -90,10 +97,7 @@ Verify you are able to override GitLab blocking push with `.gitallowed`:
     git commit -m "False positive"
     git push -u origin master
 
-Backout the commit:
-
-    git reset HEAD~1
-    git checkout README.md
+#### revert committed secret
 
 Verify you are NOT able to push another AWS secret key:
 
@@ -106,6 +110,18 @@ Backout the commit:
 
     git reset HEAD~1
     git checkout README.md
+
+#### git-crypt encrypted files allowed
+
+    git-crypt init
+    git-crypt export-key my-repo-crypt.key
+    echo "my.secrets" > .gitattributes
+    echo "password=muMj8RUUgJtzGazK" > my.secrets
+    git add .
+    git commit -m "git-crypt example"
+    git push -u origin master
+
+---
 
 Note that `.gitallowed` works by adding secrets allowed to the git repo
 config file for the project on the gitlab server. It would require manual 
